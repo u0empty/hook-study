@@ -1,28 +1,27 @@
-import { useEffect, useState, useCallback } from "react";
+import React, { useCallback, useState } from "react";
+import Box from "./Box";
 
 function App() {
-  const [number, setNumber] = useState(0);
-  const [toggle, setToggle] = useState(true);
+  const [size, setSize] = useState(100);
+  const [isDark, setIsDark] = useState(false);
 
-  const someFunction = useCallback(() => {
-    console.log(`someFunc: number: ${number}`);
-    return;
-  }, [number]);
-
-  useEffect(() => {
-    console.log(`someFunction 이 변경되었습니다.`);
-  }, [someFunction]);
+  const createBoxStyle = useCallback(() => {
+    return {
+      backgroundColor: "green",
+      width: `${size}px`,
+      height: `${size}px`,
+    };
+  }, [size]);
 
   return (
-    <div>
+    <div style={{ backgroundColor: isDark ? "black" : "white" }}>
       <input
         type="number"
-        value={number}
-        onChange={(e) => setNumber(e.target.value)}
+        value={size}
+        onChange={(e) => setSize(e.target.value)}
       />
-      <button onClick={() => setToggle(!toggle)}>{toggle.toString()}</button>
-      <br />
-      <button onClick={someFunction}>Call someFunc</button>
+      <button onClick={(e) => setIsDark(!isDark)}>Change Theme</button>
+      <Box createBoxStyle={createBoxStyle} />
     </div>
   );
 }
