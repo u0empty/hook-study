@@ -1,18 +1,32 @@
-import { useState } from "react";
-import "./App.css";
-import Page from "./component/Page";
-import { ThemeContext } from "./context/ThemeContext";
-import { UserContext } from "./context/UserContext";
+import React, { useEffect, useMemo, useState } from "react";
 
 function App() {
-  const [isDark, setIsDark] = useState(false);
+  const [number, setNumber] = useState(0);
+  const [isKorea, setIsKorea] = useState(true);
+
+  const location = useMemo(() => {
+    return {
+      country: isKorea ? "한국" : "외국",
+    };
+  }, [isKorea]);
+
+  useEffect(() => {
+    console.log("useEffect 호출");
+  }, [location]);
 
   return (
-    <UserContext.Provider value={"사용자"}>
-      <ThemeContext.Provider value={{ isDark, setIsDark }}>
-        <Page />
-      </ThemeContext.Provider>
-    </UserContext.Provider>
+    <div>
+      <h2>몇끼나드셔</h2>
+      <input
+        type="number"
+        value={number}
+        onChange={(e) => setNumber(e.target.value)}
+      />
+      <hr />
+      <h2>어디셔</h2>
+      <p>나라: {location.country}</p>
+      <button onClick={() => setIsKorea(!isKorea)}>비행기 타자</button>
+    </div>
   );
 }
 
